@@ -115,6 +115,7 @@
                            ];
         
         self.pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /2.0 - 100, 135, 200.0, 200.0) items:items];
+        self.pieChart.innerDescriptionText = @"Total tasks";
         self.pieChart.descriptionTextColor = [UIColor grayColor];
         self.pieChart.fontForDetailItemNumber = [UIFont systemFontOfSize:25];
         self.pieChart.fontForDetailItemText = [UIFont systemFontOfSize:12];

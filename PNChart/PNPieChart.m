@@ -140,7 +140,7 @@
 
 - (UILabel *)circleInnerLabel
 {
-    NSMutableAttributedString *attributedTotal = [[NSMutableAttributedString alloc] initWithString:@"Total tasks\n" attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForInnerDescriptionText}];
+    NSMutableAttributedString *attributedTotal = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",_innerDescriptionText] attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForInnerDescriptionText}];
     NSAttributedString *number = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.f",_currentTotal] attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForInnerDescriptionNumber}];
 
     [attributedTotal appendAttributedString:number];

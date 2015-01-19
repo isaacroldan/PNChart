@@ -34,6 +34,8 @@
 @property (nonatomic) UIFont *fontForInnerDescriptionNumber;
 @property (nonatomic) UIFont *fontForDetailItemText;
 @property (nonatomic) UIFont *fontForDetailItemNumber;
+@property (nonatomic) NSString *innerDescriptionText;
+
 - (void)strokeChart;
 
 @end
