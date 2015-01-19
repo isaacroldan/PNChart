@@ -30,6 +30,12 @@
 /** Default is 1.0. */
 @property (nonatomic) NSTimeInterval duration;
 
+@property (nonatomic) UIFont *fontForInnerDescriptionText;
+@property (nonatomic) UIFont *fontForInnerDescriptionNumber;
+@property (nonatomic) UIFont *fontForDetailItemText;
+@property (nonatomic) UIFont *fontForDetailItemNumber;
+@property (nonatomic) NSString *innerDescriptionText;
+
 - (void)strokeChart;
 
 @end
