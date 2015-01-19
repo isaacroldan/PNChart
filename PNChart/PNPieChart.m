@@ -44,7 +44,7 @@
 	if(self){
 		_items = [NSArray arrayWithArray:items];
 		_outerCircleRadius = CGRectGetWidth(self.bounds)/2;
-		_innerCircleRadius  = CGRectGetWidth(self.bounds)/6;
+		_innerCircleRadius  = CGRectGetWidth(self.bounds)/2.2;
 		
 		_descriptionTextColor = [UIColor whiteColor];
 		_descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:18.0];
@@ -113,45 +113,44 @@
 		currentValue+=currentItem.value;
         [_descriptionLabels addObject:descriptionLabel];
 	}
+    UILabel *circleInnerLabel = [self circleInnerLabel];
+    [_contentView addSubview:circleInnerLabel];
+    [_descriptionLabels addObject:circleInnerLabel];
+
 }
 
 - (UILabel *)descriptionLabelForItemAtIndex:(NSUInteger)index{
 	PNPieChartDataItem *currentDataItem = [self dataItemForIndex:index];
-    CGFloat distance = _innerCircleRadius + (_outerCircleRadius - _innerCircleRadius) / 2;
-    CGFloat centerPercentage =(_currentTotal + currentDataItem.value /2 ) / _total;
-    CGFloat rad = centerPercentage * 2 * M_PI;
-    
 	_currentTotal += currentDataItem.value;
-	
-    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 80)];
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 60)];
     NSString *titleText = currentDataItem.textDescription;
-    if(!titleText){
-        titleText = [NSString stringWithFormat:@"%.0f%%",currentDataItem.value/ _total * 100];
-        descriptionLabel.text = titleText ;
-    }
-    else {
-        NSString* str = [NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100];
-        str = [str stringByAppendingString:titleText];
-        descriptionLabel.text = str ;
-    }
     
-    CGPoint center = CGPointMake(_outerCircleRadius + distance * sin(rad),
-                                 _outerCircleRadius - distance * cos(rad));
+    NSMutableAttributedString* attributedTitleText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100] attributes:@{NSForegroundColorAttributeName:currentDataItem.color,NSFontAttributeName:_fontForDetailItemNumber}];
     
-    descriptionLabel.font = _descriptionTextFont;
-    CGSize labelSize = [descriptionLabel.text sizeWithAttributes:@{NSFontAttributeName:descriptionLabel.font}];
-    descriptionLabel.frame = CGRectMake(
-                             descriptionLabel.frame.origin.x, descriptionLabel.frame.origin.y,
-                             descriptionLabel.frame.size.width, labelSize.height);
+    NSAttributedString* title = [[NSAttributedString alloc] initWithString:titleText attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForDetailItemText}];
+    [attributedTitleText appendAttributedString:title];
+    descriptionLabel.attributedText = attributedTitleText;
     descriptionLabel.numberOfLines = 0;
-    descriptionLabel.textColor = _descriptionTextColor;
-    descriptionLabel.shadowColor = _descriptionTextShadowColor;
-    descriptionLabel.shadowOffset = _descriptionTextShadowOffset;
     descriptionLabel.textAlignment = NSTextAlignmentCenter;
-    descriptionLabel.center = center;
+    descriptionLabel.frame = CGRectMake(self.bounds.size.width + 10, index*(descriptionLabel.frame.size.height+10), descriptionLabel.frame.size.width, 60);
     descriptionLabel.alpha = 0;
     descriptionLabel.backgroundColor = [UIColor clearColor];
 	return descriptionLabel;
+}
+
+- (UILabel *)circleInnerLabel
+{
+    NSMutableAttributedString *attributedTotal = [[NSMutableAttributedString alloc] initWithString:@"Total tasks\n" attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForInnerDescriptionText}];
+    NSAttributedString *number = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.f",_currentTotal] attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForInnerDescriptionNumber}];
+
+    [attributedTotal appendAttributedString:number];
+    
+    UILabel *totalNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width/2, self.bounds.size.height/2)];
+    totalNumberLabel.center = CGPointMake(_outerCircleRadius, _outerCircleRadius);
+    totalNumberLabel.attributedText = attributedTotal;
+    totalNumberLabel.textAlignment = NSTextAlignmentCenter;
+    totalNumberLabel.numberOfLines = 0;
+    return totalNumberLabel;
 }
 
 - (PNPieChartDataItem *)dataItemForIndex:(NSUInteger)index{

@@ -109,15 +109,18 @@
     {
         self.titleLabel.text = @"Pie Chart";
         
-        NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen],
-                           [PNPieChartDataItem dataItemWithValue:20 color:PNFreshGreen description:@"WWDC"],
-                           [PNPieChartDataItem dataItemWithValue:40 color:PNDeepGreen description:@"GOOG I/O"],
+        NSArray *items = @[[PNPieChartDataItem dataItemWithValue:10 color:PNLightGreen description:@"Unassigned"],
+                           [PNPieChartDataItem dataItemWithValue:20 color:PNBlue description:@"Resolved"],
+                           [PNPieChartDataItem dataItemWithValue:40 color:PNDarkYellow description:@"Assigned"],
                            ];
         
         self.pieChart = [[PNPieChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /2.0 - 100, 135, 200.0, 200.0) items:items];
-        self.pieChart.descriptionTextColor = [UIColor whiteColor];
-        self.pieChart.descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:11.0];
-        self.pieChart.descriptionTextShadowColor = [UIColor clearColor];
+        self.pieChart.descriptionTextColor = [UIColor grayColor];
+        self.pieChart.fontForDetailItemNumber = [UIFont systemFontOfSize:25];
+        self.pieChart.fontForDetailItemText = [UIFont systemFontOfSize:12];
+        self.pieChart.fontForInnerDescriptionNumber = [UIFont systemFontOfSize:35];
+        self.pieChart.fontForInnerDescriptionText = [UIFont systemFontOfSize:16];
+        
         [self.pieChart strokeChart];
         
     
