@@ -59,30 +59,31 @@
         [self.lineChart strokeChart];
         self.lineChart.delegate = self;
         
-
         [self.view addSubview:self.lineChart];
     }
-    else if ([self.title isEqualToString:@"Bar Chart"])
+    else if ([self.title isEqualToString:@"Bar Chart Grouped"])
     {
         self.titleLabel.text = @"Bar Chart";
         
-        self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
+        self.barChart = [[PNBarChartGrouped alloc] initWithFrame:CGRectMake(150, 105.0, 600, 250.0)];
         self.barChart.backgroundColor = [UIColor clearColor];
         self.barChart.yLabelFormatter = ^(CGFloat yValue){
-            CGFloat yValueParsed = yValue;
-            NSString * labelText = [NSString stringWithFormat:@"%1.f",yValueParsed];
-            return labelText;
+            return @"";
         };
         self.barChart.labelMarginTop = 5.0;
-        [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5",@"SEP 6",@"SEP 7"]];
+        self.barChart.barWidth = 19;
+        self.barChart.barSeparation = 2;
+        self.barChart.groupedElements = 2;
+        [self.barChart setYValues:@[@1,@24,@12,@18,@30,@41,@12,@5,@1,@24,@12,@18]];
+        
+        NSMutableArray *strokeColors = [NSMutableArray new];
+        for (int i = 0; i<self.barChart.yValues.count; i++) {
+            [strokeColors addObject:i%2==0?PNGreen:PNDarkBlue];
+        }
+        self.barChart.strokeColors = strokeColors;
         self.barChart.rotateForXAxisText = true ;
-        [self.barChart setYValues:@[@1,@24,@12,@18,@30,@10,@21]];
-        [self.barChart setStrokeColors:@[PNGreen,PNGreen,PNRed,PNGreen,PNGreen,PNYellow,PNGreen]];
-        // Adding gradient
-        self.barChart.barColorGradientStart = [UIColor blueColor];
         
         [self.barChart strokeChart];
-        
         self.barChart.delegate = self;
         
         [self.view addSubview:self.barChart];
@@ -205,7 +206,7 @@
         [self.lineChart updateChartData:@[data01, data02]];
         
     }
-    else if ([self.title isEqualToString:@"Bar Chart"])
+    else if ([self.title isEqualToString:@"Bar Chart Grouped"])
     {
         [self.barChart setXLabels:@[@"Jan 1",@"Jan 2",@"Jan 3",@"Jan 4",@"Jan 5",@"Jan 6",@"Jan 7"]];
         [self.barChart updateChartData:@[@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30),@(arc4random() % 30)]];

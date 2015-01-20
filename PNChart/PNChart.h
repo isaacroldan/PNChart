@@ -18,3 +18,4 @@
 #import "PNChartDelegate.h"
 #import "PNPieChart.h"
 #import "PNScatterChart.h"
+#import "PNBarChartGrouped.h"

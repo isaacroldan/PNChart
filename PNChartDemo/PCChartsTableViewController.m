@@ -28,7 +28,7 @@
     {
         //Add bar chart
 
-        viewController.title = @"Bar Chart";
+        viewController.title = @"Bar Chart Grouped";
     } else if ([segue.identifier isEqualToString:@"circleChart"])
     {
         //Add circle chart

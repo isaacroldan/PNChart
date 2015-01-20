@@ -13,7 +13,7 @@
 @interface PCChartViewController : UIViewController<PNChartDelegate>
 
 @property (nonatomic) PNLineChart * lineChart;
-@property (nonatomic) PNBarChart * barChart;
+@property (nonatomic) PNBarChartGrouped * barChart;
 @property (nonatomic) PNCircleChart * circleChart;
 @property (nonatomic) PNPieChart *pieChart;
 @property (nonatomic) PNScatterChart *scatterChart;
