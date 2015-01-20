@@ -14,6 +14,7 @@
 #define yLabelMargin 15
 #define yLabelHeight 11
 #define xLabelHeight 40
+#define imageViewHeight 40
 
 typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
@@ -42,22 +43,10 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Changes chart margin. */
 @property (nonatomic) CGFloat yChartLabelWidth;
 
-/** Formats the ylabel text. */
-@property (copy) PNYLabelFormatter yLabelFormatter;
-
 @property (nonatomic) CGFloat chartMargin;
 
 /** Controls whether labels should be displayed. */
 @property (nonatomic) BOOL showLabel;
-
-/** Controls whether the chart border line should be displayed. */
-@property (nonatomic) BOOL showChartBorder;
-
-/** Chart bottom border, co-linear with the x-axis. */
-@property (nonatomic) CAShapeLayer * chartBottomLine;
-
-/** Chart left border, co-linear with the y-axis. */
-@property (nonatomic) CAShapeLayer * chartLeftLine;
 
 /** Corner radius for all bars in the chart. */
 @property (nonatomic) CGFloat barRadius;
@@ -76,12 +65,6 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Font for all bars in the chart. */
 @property (nonatomic) UIFont * labelFont;
 
-/** How many labels on the x-axis to skip in between displaying labels. */
-@property (nonatomic) NSInteger xLabelSkip;
-
-/** How many labels on the y-axis to skip in between displaying labels. */
-@property (nonatomic) NSInteger yLabelSum;
-
 /** The maximum for the range of values to display on the y-axis. */
 @property (nonatomic) CGFloat yMaxValue;
 
@@ -91,11 +74,8 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Controls whether each bar should have a gradient fill. */
 @property (nonatomic) UIColor *barColorGradientStart;
 
-/** Controls whether text for x-axis be straight or rotate 45 degree. */
-@property (nonatomic) BOOL rotateForXAxisText;
-
 @property (nonatomic) CGFloat barSeparation;
-@property (nonatomic) CGFloat groupedElements;
+@property (nonatomic) int groupedElements;
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 

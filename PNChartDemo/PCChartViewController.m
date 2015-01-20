@@ -65,13 +65,10 @@
     {
         self.titleLabel.text = @"Bar Chart";
         
-        self.barChart = [[PNBarChartGrouped alloc] initWithFrame:CGRectMake(150, 105.0, 600, 250.0)];
+        self.barChart = [[PNBarChartGrouped alloc] initWithFrame:CGRectMake(150, 150.0, 600, 300.0)];
         self.barChart.backgroundColor = [UIColor clearColor];
-        self.barChart.yLabelFormatter = ^(CGFloat yValue){
-            return @"";
-        };
         self.barChart.labelMarginTop = 5.0;
-        self.barChart.barWidth = 19;
+        self.barChart.barWidth = 15;
         self.barChart.barSeparation = 2;
         self.barChart.groupedElements = 2;
         [self.barChart setYValues:@[@1,@24,@12,@18,@30,@41,@12,@5,@1,@24,@12,@18]];
@@ -81,11 +78,9 @@
             [strokeColors addObject:i%2==0?PNGreen:PNDarkBlue];
         }
         self.barChart.strokeColors = strokeColors;
-        self.barChart.rotateForXAxisText = true ;
-        
         [self.barChart strokeChart];
         self.barChart.delegate = self;
-        
+        self.changeValueButton.hidden = YES;
         [self.view addSubview:self.barChart];
     }
     else if ([self.title isEqualToString:@"Circle Chart"])
