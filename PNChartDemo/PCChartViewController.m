@@ -83,6 +83,22 @@
         self.changeValueButton.hidden = YES;
         [self.view addSubview:self.barChart];
     }
+    else if ([self.title isEqualToString:@"Bar Chart Horizontal"])
+    {
+        self.titleLabel.text = @"Bar Chart";
+        
+        self.barChartHorizontal = [[PNBarChartHorizontal alloc] initWithFrame:CGRectMake(150, 150.0, 400, 400.0)];
+        self.barChartHorizontal.backgroundColor = [UIColor clearColor];
+        self.barChartHorizontal.barHeight = 25;
+        self.barChartHorizontal.barSeparation = 35;
+        [self.barChartHorizontal setYValues:@[@1,@24,@12,@18,@30]];
+        [self.barChartHorizontal setBarTitles:@[@"Early", @"On time", @"Within 1 week", @"More than 1 week", @"No due date"]];
+        self.barChartHorizontal.strokeColor = PNYellow;
+        [self.barChartHorizontal strokeChart];
+        self.barChartHorizontal.delegate = self;
+        self.changeValueButton.hidden = YES;
+        [self.view addSubview:self.barChartHorizontal];
+    }
     else if ([self.title isEqualToString:@"Circle Chart"])
     {
         self.titleLabel.text = @"Circle Chart";

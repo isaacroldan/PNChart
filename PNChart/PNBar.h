@@ -19,5 +19,6 @@
 @property (nonatomic) UIColor *barColorGradientStart;
 @property (nonatomic) CGFloat barRadius;
 @property (nonatomic) CAShapeLayer *gradientMask;
+@property (nonatomic) BOOL horizontal;
 
 @end

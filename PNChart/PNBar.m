@@ -21,6 +21,7 @@
         _chartLine.fillColor    = [[UIColor whiteColor] CGColor];
         _chartLine.lineWidth    = self.frame.size.width;
         _chartLine.strokeEnd    = 0.0;
+        _horizontal             = NO;
         self.clipsToBounds      = YES;
         [self.layer addSublayer:_chartLine];
         self.barRadius = 2.0;
@@ -42,9 +43,15 @@
 
     UIBezierPath *progressline = [UIBezierPath bezierPath];
 
-    [progressline moveToPoint:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height)];
-    [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, (1 - grade) * self.frame.size.height)];
-
+    if (_horizontal) {
+        [progressline moveToPoint:CGPointMake(0, self.frame.size.height / 2.0)];
+        [progressline addLineToPoint:CGPointMake(grade * self.frame.size.width,self.frame.size.height / 2.0)];
+    }
+    else {
+        [progressline moveToPoint:CGPointMake(self.frame.size.width / 2.0, self.frame.size.height)];
+        [progressline addLineToPoint:CGPointMake(self.frame.size.width / 2.0, (1 - grade) * self.frame.size.height)];
+    }
+   
     [progressline setLineWidth:1.0];
     [progressline setLineCapStyle:kCGLineCapSquare];
 

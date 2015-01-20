@@ -46,6 +46,12 @@
         
         viewController.title = @"Scatter Chart";
     }
+    else if ([segue.identifier isEqualToString:@"horizontal"])
+    {
+        //Add scatter chart
+        
+        viewController.title = @"Bar Chart Horizontal";
+    }
 }
 
 @end
