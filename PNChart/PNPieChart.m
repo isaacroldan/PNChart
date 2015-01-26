@@ -10,7 +10,6 @@
 
 @interface PNPieChart()
 
-@property (nonatomic, readwrite) NSArray	*items;
 @property (nonatomic) CGFloat total;
 @property (nonatomic) CGFloat currentTotal;
 
@@ -88,8 +87,8 @@
 		currentItem = [self dataItemForIndex:i];
 		
 		
-		CGFloat startPercnetage = currentValue/_total;
-		CGFloat endPercentage   = (currentValue + currentItem.value)/_total;
+        CGFloat startPercnetage = _total ? currentValue/_total+0.0025 : 0;
+        CGFloat endPercentage   = _total ? (currentValue + currentItem.value)/_total-0.0025 : 0;
 		
 		CAShapeLayer *currentPieLayer =	[self newCircleLayerWithRadius:_innerCircleRadius + (_outerCircleRadius - _innerCircleRadius)/2
                                                            borderWidth:_outerCircleRadius - _innerCircleRadius
@@ -131,8 +130,8 @@
     [attributedTitleText appendAttributedString:title];
     descriptionLabel.attributedText = attributedTitleText;
     descriptionLabel.numberOfLines = 0;
-    descriptionLabel.textAlignment = NSTextAlignmentCenter;
-    descriptionLabel.frame = CGRectMake(self.bounds.size.width + 10, index*(descriptionLabel.frame.size.height+10), descriptionLabel.frame.size.width, 60);
+    descriptionLabel.textAlignment = NSTextAlignmentLeft;
+    descriptionLabel.frame = CGRectMake(self.bounds.size.width + 60, index*(descriptionLabel.frame.size.height)-10, descriptionLabel.frame.size.width, 60);
     descriptionLabel.alpha = 0;
     descriptionLabel.backgroundColor = [UIColor clearColor];
 	return descriptionLabel;
