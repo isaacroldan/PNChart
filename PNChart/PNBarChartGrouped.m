@@ -38,7 +38,6 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    
     if (self) {
         [self setupDefaultValues];
     }
@@ -61,6 +60,9 @@
     _yChartLabelWidth    = 18;
     _groupedElements     = 1;
     _barSeparation       = 20;
+    _barHeight           = 150;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
 }
 
 - (void)setYValues:(NSArray *)yValues
@@ -88,8 +90,8 @@
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
         CGFloat origin = firstBar.frame.origin.x + (lastBar.frame.origin.x + lastBar.frame.size.width - firstBar.frame.origin.x)/2 - xLabelHeight/2;
         UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin, 0, xLabelHeight, xLabelHeight)];
-        valueLabel.font = [UIFont systemFontOfSize:25];
-        valueLabel.textColor = firstBar.barColor;
+        valueLabel.font = _labelFont;
+        valueLabel.textColor = firstBar.barColor;;
         valueLabel.textAlignment = NSTextAlignmentCenter;
         valueLabel.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:(int)i*_groupedElements]];
         [_xChartLabels addObject:valueLabel];
@@ -116,7 +118,7 @@
     for (int i = 0; i<_bars.count; i++) {
         if (i % _groupedElements == index) {
             PNBar *bar = _bars[i];
-            bar.alpha = alpha;
+            bar.barColor = [bar.barColor colorWithAlphaComponent:alpha];
         }
     }
 }
@@ -130,7 +132,7 @@
 {
     
     //Add bars
-    CGFloat chartCavanHeight = self.frame.size.height - _chartMargin * 2 - xLabelHeight - imageViewHeight;
+    CGFloat chartCavanHeight = _barHeight;
     NSInteger index = 0;
     
     for (NSNumber *valueString in _yValues) {
@@ -145,8 +147,8 @@
             PNBar *lastBar = [_bars lastObject];
             if (_barWidth) {
                 barWidth = _barWidth;
-                CGFloat stepSeparation = (int)index % (int)_groupedElements == 0 ? _barSeparation*15 : _barSeparation;
-                barXPosition = lastBar.frame.origin.x + lastBar.frame.size.width + stepSeparation;
+                CGFloat stepSeparation = index % _groupedElements == 0 ? _barSeparation*14 : _barSeparation;
+                barXPosition = !lastBar ? 4 : lastBar.frame.origin.x + lastBar.frame.size.width + stepSeparation;
             }else{
                 barXPosition = index *  _xLabelWidth + _chartMargin + _xLabelWidth * 0.25;
                 if (_showLabel) {
@@ -160,7 +162,7 @@
             }
             
             bar = [[PNBar alloc] initWithFrame:CGRectMake(barXPosition, //Bar X position
-                                                          xLabelHeight + 5, //Bar Y position
+                                                          xLabelHeight, //Bar Y position
                                                           barWidth, // Bar witdh
                                                           chartCavanHeight)]; //Bar height
             
@@ -168,7 +170,7 @@
             bar.barRadius = _barRadius;
             
             //Change Bar Background color
-            bar.backgroundColor = _barBackgroundColor;
+            bar.backgroundColor = index % _groupedElements == 0 ? _barBackgroundColor : _barBackgroundColor2;
             
             //Bar StrokColor First
             if (self.strokeColor) {
@@ -211,6 +213,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(origin, top+10, imageViewHeight, imageViewHeight)];
         imageView.layer.cornerRadius = imageView.frame.size.height/2;
         imageView.backgroundColor = [UIColor redColor];
+        self.imageForImageViewAtIndex(imageView,i);
         [_imageViews addObject:imageView];
         [self addSubview:imageView];
     }
@@ -222,8 +225,17 @@
     [self updateBar];
     [self setImageViews];
     [self setXLabels];
+    [self setScrollViewContentSize];
 }
 
+- (void)setScrollViewContentSize
+{
+    PNBar *firstBar = _bars.firstObject;
+    PNBar *lastBar = _bars.lastObject;
+    CGFloat width = firstBar.frame.origin.x + lastBar.frame.origin.x + lastBar.frame.size.width;
+    [self setContentSize:CGSizeMake(width, self.frame.size.height)];
+}
+ 
 
 - (void)viewCleanupForCollection:(NSMutableArray *)array
 {
@@ -238,8 +250,8 @@
 
 - (UIColor *)barColorAtIndex:(NSUInteger)index
 {
-    if ([self.strokeColors count] == [self.yValues count]) {
-        return self.strokeColors[index];
+    if (self.strokeColors) {
+        return self.strokeColors[index%_groupedElements];
     }
     else {
         return self.strokeColor;

@@ -60,6 +60,8 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Font for all bars in the chart. */
 @property (nonatomic) UIFont * labelFont;
 
+@property (nonatomic) UIFont * valueLabelFont;
+
 /** The maximum for the range of values to display on the y-axis. */
 @property (nonatomic) CGFloat yMaxValue;
 

@@ -18,7 +18,7 @@
 
 typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
-@interface PNBarChartGrouped : UIView
+@interface PNBarChartGrouped : UIScrollView
 
 /**
  * Draws the chart in an animated fashion.
@@ -54,10 +54,14 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 /** Width of all bars in the chart. */
 @property (nonatomic) CGFloat barWidth;
 
+@property (nonatomic) CGFloat barHeight;
+
 @property (nonatomic) CGFloat labelMarginTop;
 
 /** Background color of all bars in the chart. */
 @property (nonatomic) UIColor * barBackgroundColor;
+
+@property (nonatomic) UIColor * barBackgroundColor2;
 
 /** Text color for all bars in the chart. */
 @property (nonatomic) UIColor * labelTextColor;
@@ -78,5 +82,6 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) int groupedElements;
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
+@property (nonatomic, copy) void(^imageForImageViewAtIndex)(UIImageView*imageView, NSUInteger index);
 
 @end

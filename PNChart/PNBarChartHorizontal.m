@@ -43,12 +43,14 @@
     _barBackgroundColor  = PNLightYellow;
     _labelTextColor      = [UIColor grayColor];
     _labelFont           = [UIFont systemFontOfSize:11.0f];
-    _valueLabels        = [NSMutableArray array];
-    _titleLabels        = [NSMutableArray array];
+    _valueLabels         = [NSMutableArray array];
+    _titleLabels         = [NSMutableArray array];
     _bars                = [NSMutableArray array];
     _chartMargin         = 15.0;
-    _barRadius           = 2.0;
+    _barRadius           = 4.0;
     _barHeight           = 25.0;
+    _valueLabelFont      = [UIFont systemFontOfSize:11.0f];
+    _barSeparation       = 15;
 }
 
 - (void)setYValues:(NSArray *)yValues
@@ -121,14 +123,16 @@
 {
     for (int i = 0; i<_bars.count; i++) {
         PNBar *bar = _bars[i];
-        CGFloat origin = MIN(self.frame.size.width - 40, bar.grade*bar.frame.size.width);
-        BOOL invertedColor = origin < bar.grade*bar.frame.size.width;
-        UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin, bar.frame.origin.y, 40, _barHeight)];
-        valueLabel.font = [UIFont systemFontOfSize:20];
-        valueLabel.textColor = invertedColor ? [UIColor whiteColor] : bar.barColor;
+        UILabel *valueLabel = [[UILabel alloc] init];
+        valueLabel.font = _valueLabelFont;
         valueLabel.textAlignment = NSTextAlignmentCenter;
         valueLabel.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:i]];
         valueLabel.alpha = 0;
+        [valueLabel sizeToFit];
+        CGFloat origin = MIN(self.frame.size.width - valueLabel.frame.size.width - 8, bar.grade*bar.frame.size.width);
+        BOOL invertedColor = origin < bar.grade*bar.frame.size.width;
+        valueLabel.frame = CGRectMake(origin+4, bar.frame.origin.y-1, valueLabel.frame.size.width, _barHeight);
+        valueLabel.textColor = invertedColor ? [UIColor whiteColor] : bar.barColor;
         [_valueLabels addObject:valueLabel];
         [self addSubview:valueLabel];
     }
@@ -137,11 +141,12 @@
 - (void)addBarTitles
 {
     for (PNBar *bar in _bars) {
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, bar.frame.origin.y-25, 100, 25)];
-        titleLabel.font = [UIFont systemFontOfSize:15];
-        titleLabel.textColor = PNPinkGrey;
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.font = _labelFont;
+        titleLabel.textColor = _labelTextColor;
         titleLabel.text = _barTitles[bar.tag];
         [titleLabel sizeToFit];
+        [titleLabel setFrame:CGRectMake(0, bar.frame.origin.y-titleLabel.frame.size.height-2, titleLabel.frame.size.width, titleLabel.frame.size.height)];
         [_titleLabels addObject:titleLabel];
         [self addSubview:titleLabel];
     }
