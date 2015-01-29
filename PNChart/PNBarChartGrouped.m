@@ -212,7 +212,6 @@
         CGFloat origin = firstBar.frame.origin.x + (lastBar.frame.origin.x + lastBar.frame.size.width - firstBar.frame.origin.x)/2 - imageViewHeight/2;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(origin, top+10, imageViewHeight, imageViewHeight)];
         imageView.layer.cornerRadius = imageView.frame.size.height/2;
-        imageView.backgroundColor = [UIColor redColor];
         self.imageForImageViewAtIndex(imageView,i);
         [_imageViews addObject:imageView];
         [self addSubview:imageView];
@@ -222,6 +221,8 @@
 - (void)strokeChart
 {
     [self viewCleanupForCollection:_bars];
+    [self viewCleanupForCollection:_imageViews];
+    [self viewCleanupForCollection:_xChartLabels];
     [self updateBar];
     [self setImageViews];
     [self setXLabels];

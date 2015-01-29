@@ -144,11 +144,12 @@
 
     [attributedTotal appendAttributedString:number];
     
-    UILabel *totalNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width/2, self.bounds.size.height/2)];
-    totalNumberLabel.center = CGPointMake(_outerCircleRadius, _outerCircleRadius);
+    UILabel *totalNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height/2)];
     totalNumberLabel.attributedText = attributedTotal;
     totalNumberLabel.textAlignment = NSTextAlignmentCenter;
-    totalNumberLabel.numberOfLines = 0;
+    totalNumberLabel.numberOfLines = 2;
+    [totalNumberLabel sizeToFit];
+    totalNumberLabel.center = CGPointMake(_outerCircleRadius, _outerCircleRadius);
     return totalNumberLabel;
 }
 
