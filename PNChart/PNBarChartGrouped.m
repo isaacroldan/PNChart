@@ -61,6 +61,7 @@
     _groupedElements     = 1;
     _barSeparation       = 20;
     _barHeight           = 150;
+    _deselectedBarAlpha  = 0.2;
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
 }
@@ -98,7 +99,22 @@
         [self addSubview:valueLabel];
     }
     [self changeGroupedBarsAlpha:1 atIndex:0];
-    [self changeGroupedBarsAlpha:0.2 atIndex:1];
+    [self changeGroupedBarsAlpha:_deselectedBarAlpha atIndex:1];
+}
+
+- (void)updateXLabelsForIndex:(NSUInteger)index
+{
+    for (UILabel *label in _xChartLabels) {
+        label.hidden = NO;
+        int labelIndex = [_xChartLabels indexOfObject:label];
+        label.textColor = _strokeColors[index];
+        label.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:(int)labelIndex*_groupedElements+index]];
+    }
+}
+
+- (void)hideAllLabels
+{
+    [_xChartLabels makeObjectsPerformSelector:@selector(setHidden:) withObject:@1];
 }
 
 - (void)selectGroupedElementAtIndex:(NSUInteger)index
@@ -110,7 +126,7 @@
         label.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:((int)i*_groupedElements+index)]];
     }
     [self changeGroupedBarsAlpha:1 atIndex:index];
-    [self changeGroupedBarsAlpha:0.2 atIndex:index == 0 ? 1 : 0];
+    [self changeGroupedBarsAlpha:_deselectedBarAlpha atIndex:(index+1)%2];
 }
 
 - (void)changeGroupedBarsAlpha:(CGFloat)alpha atIndex:(NSUInteger)index
@@ -118,7 +134,7 @@
     for (int i = 0; i<_bars.count; i++) {
         if (i % _groupedElements == index) {
             PNBar *bar = _bars[i];
-            bar.barColor = [bar.barColor colorWithAlphaComponent:alpha];
+            bar.chartLine.strokeColor = [bar.barColor colorWithAlphaComponent:alpha].CGColor;
         }
     }
 }
@@ -278,6 +294,23 @@
         [self selectGroupedElementAtIndex:subview.tag%_groupedElements];
         [self.delegate userClickedOnBarAtIndex:subview.tag];
     }
+}
+
+
+#pragma mark - User Interaction
+
+- (void)activateGroupAtIndex:(NSUInteger)index
+{
+    [self changeGroupedBarsAlpha:1 atIndex:index];
+    [self changeGroupedBarsAlpha:_deselectedBarAlpha atIndex:(index+1)%2];
+    [self updateXLabelsForIndex:index];
+}
+
+- (void)disableAllGroups
+{
+    [self changeGroupedBarsAlpha:1 atIndex:0];
+    [self changeGroupedBarsAlpha:1 atIndex:1];
+    [self hideAllLabels];
 }
 
 

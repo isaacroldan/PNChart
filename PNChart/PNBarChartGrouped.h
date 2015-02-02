@@ -77,11 +77,15 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
 /** Controls whether each bar should have a gradient fill. */
 @property (nonatomic) UIColor *barColorGradientStart;
-
+@property (nonatomic) CGFloat deselectedBarAlpha;
 @property (nonatomic) CGFloat barSeparation;
 @property (nonatomic) int groupedElements;
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 @property (nonatomic, copy) void(^imageForImageViewAtIndex)(UIImageView*imageView, NSUInteger index);
+
+- (void)activateGroupAtIndex:(NSUInteger)index;
+- (void)disableAllGroups;
+
 
 @end
