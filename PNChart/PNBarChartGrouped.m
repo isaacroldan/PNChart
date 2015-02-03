@@ -54,6 +54,7 @@
     _labelFont           = [UIFont systemFontOfSize:11.0f];
     _xChartLabels        = [NSMutableArray array];
     _bars                = [NSMutableArray array];
+    _imageViews          = [NSMutableArray array];
     _labelMarginTop      = 0;
     _chartMargin         = 15.0;
     _barRadius           = 2.0;
@@ -252,7 +253,6 @@
     CGFloat width = firstBar.frame.origin.x + lastBar.frame.origin.x + lastBar.frame.size.width;
     [self setContentSize:CGSizeMake(width, self.frame.size.height)];
 }
- 
 
 - (void)viewCleanupForCollection:(NSMutableArray *)array
 {
