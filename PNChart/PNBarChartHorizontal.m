@@ -155,6 +155,7 @@
 - (void)strokeChart
 {
     [self viewCleanupForCollection:_bars];
+    [self viewCleanupForCollection:_titleLabels];
     [self updateBar];
     [self addValueLabels];
     [self performSelector:@selector(showLabelsAnimated) withObject:nil afterDelay:1];
