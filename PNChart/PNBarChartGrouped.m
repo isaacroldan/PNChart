@@ -14,6 +14,7 @@
 @interface PNBarChartGrouped () {
     NSMutableArray *_xChartLabels;
     NSMutableArray *_imageViews;
+    NSUInteger numberOfRealElements;
 }
 
 - (UIColor *)barColorAtIndex:(NSUInteger)index;
@@ -63,14 +64,26 @@
     _barSeparation       = 20;
     _barHeight           = 150;
     _deselectedBarAlpha  = 0.2;
+    _minimumGroups       = 4;
+    numberOfRealElements = 0;
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
 }
 
 - (void)setYValues:(NSArray *)yValues
 {
-    _yValues = yValues;
+    numberOfRealElements = yValues.count/_groupedElements;
+    _yValues = [self addEmptyValues:yValues];
     [self getYValueMax:yValues];
+}
+
+- (NSArray *)addEmptyValues:(NSArray *)yValues
+{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:yValues];
+    for (int i=0; i<(_minimumGroups*2-yValues.count); i++) {
+        [array addObject:@0];
+    }
+    return [NSArray arrayWithArray:array];
 }
 
 -(void)updateChartData:(NSArray *)data{
@@ -86,7 +99,7 @@
 
 - (void)setXLabels
 {
-    int numberOfLabels = (int)self.bars.count / _groupedElements;
+    int numberOfLabels = numberOfRealElements;
     for (int i = 0; i<numberOfLabels; i++) {
         PNBar *firstBar = [_bars objectAtIndex:i*_groupedElements];
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
@@ -189,6 +202,9 @@
             //Change Bar Background color
             bar.backgroundColor = index % _groupedElements == 0 ? _barBackgroundColor : _barBackgroundColor2;
             
+            bar.alpha = index < numberOfRealElements*2 ? 1 : 0.2;
+            
+            
             //Bar StrokColor First
             if (self.strokeColor) {
                 bar.barColor = self.strokeColor;
@@ -221,7 +237,7 @@
 
 - (void)setImageViews
 {
-    int numberOfImages = (int)self.bars.count / _groupedElements;
+    int numberOfImages = MAX(numberOfRealElements, _minimumGroups);
     for (int i = 0; i<numberOfImages; i++) {
         PNBar *firstBar = [_bars objectAtIndex:i*_groupedElements];
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
@@ -229,6 +245,7 @@
         CGFloat origin = firstBar.frame.origin.x + (lastBar.frame.origin.x + lastBar.frame.size.width - firstBar.frame.origin.x)/2 - imageViewHeight/2;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(origin, top+10, imageViewHeight, imageViewHeight)];
         imageView.layer.cornerRadius = imageView.frame.size.height/2;
+        [imageView setBackgroundColor:[UIColor colorWithWhite:246/255.0 alpha:1]];
         self.imageForImageViewAtIndex(imageView,i);
         [_imageViews addObject:imageView];
         [self addSubview:imageView];
@@ -240,10 +257,17 @@
     [self viewCleanupForCollection:_bars];
     [self viewCleanupForCollection:_imageViews];
     [self viewCleanupForCollection:_xChartLabels];
+    [self regenerateYValues];
     [self updateBar];
     [self setImageViews];
     [self setXLabels];
     [self setScrollViewContentSize];
+}
+
+- (void)regenerateYValues
+{
+    NSArray *realElements = [_yValues subarrayWithRange:NSMakeRange(0, numberOfRealElements*2)];
+    [self setYValues:realElements];
 }
 
 - (void)setScrollViewContentSize
@@ -253,6 +277,7 @@
     CGFloat width = firstBar.frame.origin.x + lastBar.frame.origin.x + lastBar.frame.size.width;
     [self setContentSize:CGSizeMake(width, self.frame.size.height)];
 }
+ 
 
 - (void)viewCleanupForCollection:(NSMutableArray *)array
 {

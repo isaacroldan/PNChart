@@ -80,6 +80,7 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) CGFloat deselectedBarAlpha;
 @property (nonatomic) CGFloat barSeparation;
 @property (nonatomic) int groupedElements;
+@property (nonatomic) int minimumGroups;
 
 @property (nonatomic, weak) id<PNChartDelegate> delegate;
 @property (nonatomic, copy) void(^imageForImageViewAtIndex)(UIImageView*imageView, NSUInteger index);
