@@ -79,6 +79,7 @@
 
 - (NSArray *)addEmptyValues:(NSArray *)yValues
 {
+    if (yValues.count >= _minimumGroups*2) return yValues;
     NSMutableArray *array = [NSMutableArray arrayWithArray:yValues];
     for (int i=0; i<(_minimumGroups*2-yValues.count); i++) {
         [array addObject:@0];
@@ -103,8 +104,8 @@
     for (int i = 0; i<numberOfLabels; i++) {
         PNBar *firstBar = [_bars objectAtIndex:i*_groupedElements];
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
-        CGFloat origin = firstBar.frame.origin.x + (lastBar.frame.origin.x + lastBar.frame.size.width - firstBar.frame.origin.x)/2 - xLabelHeight/2;
-        UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin, 0, xLabelHeight, xLabelHeight)];
+        CGFloat origin = firstBar.frame.origin.x + (lastBar.frame.origin.x + lastBar.frame.size.width - firstBar.frame.origin.x)/2 - xLabelHeight/2 - 2;
+        UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(origin, 0, xLabelHeight+4, xLabelHeight)];
         valueLabel.font = _labelFont;
         valueLabel.textColor = firstBar.barColor;;
         valueLabel.textAlignment = NSTextAlignmentCenter;
