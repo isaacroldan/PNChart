@@ -129,7 +129,9 @@
 
 - (void)hideAllLabels
 {
-    [_xChartLabels makeObjectsPerformSelector:@selector(setHidden:) withObject:@1];
+    for (UILabel *label in _xChartLabels) {
+        label.hidden = YES;
+    }
 }
 
 - (void)selectGroupedElementAtIndex:(NSUInteger)index
