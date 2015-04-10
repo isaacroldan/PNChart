@@ -124,7 +124,8 @@
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 60)];
     NSString *titleText = currentDataItem.textDescription;
     
-    NSMutableAttributedString* attributedTitleText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f%%\n",currentDataItem.value/ _total * 100] attributes:@{NSForegroundColorAttributeName:currentDataItem.color,NSFontAttributeName:_fontForDetailItemNumber}];
+    int normalizedValue = (_total == 0 ? 0 : currentDataItem.value/ _total) * 100;
+    NSMutableAttributedString* attributedTitleText = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.0f%%\n", normalizedValue] attributes:@{NSForegroundColorAttributeName:currentDataItem.color,NSFontAttributeName:_fontForDetailItemNumber}];
     
     NSAttributedString* title = [[NSAttributedString alloc] initWithString:titleText attributes:@{NSForegroundColorAttributeName:_descriptionTextColor,NSFontAttributeName:_fontForDetailItemText}];
     [attributedTitleText appendAttributedString:title];
