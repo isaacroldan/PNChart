@@ -320,9 +320,9 @@ static const CGFloat imageViewHeight = 40;
     CGPoint touchPoint = [touch locationInView:self];
     UIView *subview = [self hitTest:touchPoint withEvent:nil];
     
-    if ([subview isKindOfClass:[PNBar class]] && [self.delegate respondsToSelector:@selector(userClickedOnBarAtIndex:)]) {
+    if ([subview isKindOfClass:[PNBar class]] && [self.chartDelegate respondsToSelector:@selector(userClickedOnBarAtIndex:)]) {
         [self selectGroupedElementAtIndex:subview.tag%_groupedElements];
-        [self.delegate userClickedOnBarAtIndex:subview.tag];
+        [self.chartDelegate userClickedOnBarAtIndex:subview.tag];
     }
 }
 

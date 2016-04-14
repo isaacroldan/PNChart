@@ -79,7 +79,7 @@
         }
         self.barChart.strokeColors = strokeColors;
         [self.barChart strokeChart];
-        self.barChart.delegate = self;
+        self.barChart.chartDelegate = self;
         self.changeValueButton.hidden = YES;
         [self.view addSubview:self.barChart];
     }

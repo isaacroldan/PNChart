@@ -77,7 +77,7 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) int groupedElements;
 @property (nonatomic) int minimumGroups;
 
-@property (nonatomic, weak) id<PNChartDelegate> delegate;
+@property (nonatomic, weak) id<PNChartDelegate> chartDelegate;
 @property (nonatomic, copy) void(^imageForImageViewAtIndex)(UIImageView*imageView, NSUInteger index);
 
 - (void)activateGroupAtIndex:(NSUInteger)index;
