@@ -102,7 +102,7 @@ static const CGFloat imageViewHeight = 40;
 
 - (void)setXLabels
 {
-    int numberOfLabels = numberOfRealElements;
+    NSUInteger numberOfLabels = numberOfRealElements;
     for (int i = 0; i<numberOfLabels; i++) {
         PNBar *firstBar = [_bars objectAtIndex:i*_groupedElements];
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
@@ -123,9 +123,9 @@ static const CGFloat imageViewHeight = 40;
 {
     for (UILabel *label in _xChartLabels) {
         label.hidden = NO;
-        int labelIndex = [_xChartLabels indexOfObject:label];
+        NSUInteger labelIndex = [_xChartLabels indexOfObject:label];
         label.textColor = _strokeColors[index];
-        label.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:(int)labelIndex*_groupedElements+index]];
+        label.text = [NSString stringWithFormat:@"%@",[_yValues objectAtIndex:(NSUInteger)labelIndex*_groupedElements+index]];
     }
 }
 
@@ -242,8 +242,8 @@ static const CGFloat imageViewHeight = 40;
 
 - (void)setImageViews
 {
-    int numberOfImages = MAX(numberOfRealElements, _minimumGroups);
-    for (int i = 0; i<numberOfImages; i++) {
+    NSUInteger numberOfImages = MAX(numberOfRealElements, _minimumGroups);
+    for (NSUInteger i = 0; i<numberOfImages; i++) {
         PNBar *firstBar = [_bars objectAtIndex:i*_groupedElements];
         PNBar *lastBar = [_bars objectAtIndex:i*_groupedElements+_groupedElements-1];
         CGFloat top = firstBar.frame.origin.y + firstBar.frame.size.height;
@@ -251,7 +251,9 @@ static const CGFloat imageViewHeight = 40;
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(origin, top+10, imageViewHeight, imageViewHeight)];
         imageView.layer.cornerRadius = imageView.frame.size.height/2;
         [imageView setBackgroundColor:[UIColor colorWithWhite:246/255.0 alpha:1]];
-        self.imageForImageViewAtIndex(imageView,i);
+        if (self.imageForImageViewAtIndex) {
+            self.imageForImageViewAtIndex(imageView,i);
+        };
         [_imageViews addObject:imageView];
         [self addSubview:imageView];
     }
@@ -282,7 +284,6 @@ static const CGFloat imageViewHeight = 40;
     CGFloat width = firstBar.frame.origin.x + lastBar.frame.origin.x + lastBar.frame.size.width;
     [self setContentSize:CGSizeMake(width, self.frame.size.height)];
 }
- 
 
 - (void)viewCleanupForCollection:(NSMutableArray *)array
 {
