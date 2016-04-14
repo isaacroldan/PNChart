@@ -10,6 +10,8 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
+static const CGFloat xLabelHeight = 40;
+static const CGFloat imageViewHeight = 40;
 
 @interface PNBarChartGrouped () {
     NSMutableArray *_xChartLabels;
