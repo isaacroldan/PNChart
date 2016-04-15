@@ -10,6 +10,8 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
+static const CGFloat yLabelHeight = 11;
+static const CGFloat xLabelHeight = 20;
 
 @interface PNBarChart () {
     NSMutableArray *_xChartLabels;

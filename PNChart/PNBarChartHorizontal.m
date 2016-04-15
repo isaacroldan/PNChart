@@ -10,7 +10,6 @@
 #import "PNColor.h"
 #import "PNChartLabel.h"
 
-
 @interface PNBarChartHorizontal () {
     NSMutableArray *_valueLabels;
     NSMutableArray *_titleLabels;

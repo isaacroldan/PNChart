@@ -10,11 +10,6 @@
 #import "PNChartDelegate.h"
 #import "PNBar.h"
 
-#define xLabelMargin 15
-#define yLabelMargin 15
-#define yLabelHeight 11
-#define xLabelHeight 40
-#define imageViewHeight 40
 
 typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 
@@ -82,7 +77,7 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) int groupedElements;
 @property (nonatomic) int minimumGroups;
 
-@property (nonatomic, weak) id<PNChartDelegate> delegate;
+@property (nonatomic, weak) id<PNChartDelegate> chartDelegate;
 @property (nonatomic, copy) void(^imageForImageViewAtIndex)(UIImageView*imageView, NSUInteger index);
 
 - (void)activateGroupAtIndex:(NSUInteger)index;
